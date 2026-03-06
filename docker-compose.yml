@@ -1,0 +1,11 @@
+services:
+  db:
+    image: postgres:15
+    container_name: jitterbit_db
+    restart: always
+    environment:
+      POSTGRES_USER: user_jitterbit
+      POSTGRES_PASSWORD: password_jitterbit
+      POSTGRES_DB: jitterbit_test
+    ports:
+      - "5432:5432"

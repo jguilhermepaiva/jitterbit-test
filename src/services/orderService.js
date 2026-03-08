@@ -65,7 +65,6 @@ class OrderService {
   }
 
   async deleteOrder(orderId) {
-    // No Prisma, precisamos deletar os itens antes do pedido se não houver Cascade no banco
     await prisma.items.deleteMany({ where: { orderId } });
     return await prisma.order.delete({ where: { orderId } });
   }

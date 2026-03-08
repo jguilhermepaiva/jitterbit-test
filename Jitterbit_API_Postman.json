@@ -9,38 +9,22 @@
   },
   "item": [
     {
-      "name": "Listar todos os pedidos",
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "exec": [
-              "pm.test(\"Status code is 200\", function () {",
-              "    pm.response.to.have.status(200);",
-              "});"
-            ],
-            "type": "text/javascript",
-            "packages": {},
-            "requests": {}
-          }
-        }
-      ],
+      "name": "Login com JWT",
       "request": {
-        "method": "GET",
+        "method": "POST",
         "header": [],
         "url": {
-          "raw": "http://localhost:3000/order/list",
+          "raw": "http://localhost:3000/auth/login",
           "protocol": "http",
           "host": [
             "localhost"
           ],
           "port": "3000",
           "path": [
-            "order",
-            "list"
+            "auth",
+            "login"
           ]
-        },
-        "description": "This is a GET request and it is used to \"get\" data from an endpoint. There is no request body for a GET request, but you can use query parameters to help specify the resource you want data on (e.g., in this request, we have `id=1`).\n\nA successful GET response will have a `200 OK` status, and should include some kind of response body - for example, HTML web content or JSON data."
+        }
       },
       "response": []
     },
@@ -63,11 +47,21 @@
         }
       ],
       "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiYWRtaW5faml0dGVyYml0IiwiaWF0IjoxNzcyOTc5NjE3LCJleHAiOjE3NzI5ODMyMTd9.TWS_leFxFP4nAaGYhTdyq2NbmllsNKhZHQGbp11ljOY",
+              "type": "string"
+            }
+          ]
+        },
         "method": "POST",
         "header": [],
         "body": {
           "mode": "raw",
-          "raw": "{\n  \"numeroPedido\": \"v10089015vdb-01\",\n  \"valor Total\": 10002,\n  \"dataCriacao\": \"2023-07-19T12:24:11.5299601+00:00\",\n  \"items\": [\n    {\n      \"idItem\": \"2434\",\n      \"quantidadeltem\": 1,\n      \"valorltem\": 1000\n    }\n  ]\n}",
+          "raw": "{\n  \"numeroPedido\": \"v10089015vdb-02\",\n  \"valor Total\": 10003,\n  \"dataCriacao\": \"2024-07-19T12:24:11.5299601+00:00\",\n  \"items\": [\n    {\n      \"idItem\": \"2434\",\n      \"quantidadeltem\": 1,\n      \"valorltem\": 1000\n    }\n  ]\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -90,8 +84,64 @@
       "response": []
     },
     {
+      "name": "Listar todos os pedidos",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiYWRtaW5faml0dGVyYml0IiwiaWF0IjoxNzcyOTc5NjE3LCJleHAiOjE3NzI5ODMyMTd9.TWS_leFxFP4nAaGYhTdyq2NbmllsNKhZHQGbp11ljOY",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/order/list",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "order",
+            "list"
+          ]
+        },
+        "description": "This is a GET request and it is used to \"get\" data from an endpoint. There is no request body for a GET request, but you can use query parameters to help specify the resource you want data on (e.g., in this request, we have `id=1`).\n\nA successful GET response will have a `200 OK` status, and should include some kind of response body - for example, HTML web content or JSON data."
+      },
+      "response": []
+    },
+    {
       "name": "Buscar por id",
       "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiYWRtaW5faml0dGVyYml0IiwiaWF0IjoxNzcyOTc5NjE3LCJleHAiOjE3NzI5ODMyMTd9.TWS_leFxFP4nAaGYhTdyq2NbmllsNKhZHQGbp11ljOY",
+              "type": "string"
+            }
+          ]
+        },
         "method": "GET",
         "header": [],
         "url": {
@@ -112,11 +162,21 @@
     {
       "name": "Atualizar pedido",
       "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiYWRtaW5faml0dGVyYml0IiwiaWF0IjoxNzcyOTc5NjE3LCJleHAiOjE3NzI5ODMyMTd9.TWS_leFxFP4nAaGYhTdyq2NbmllsNKhZHQGbp11ljOY",
+              "type": "string"
+            }
+          ]
+        },
         "method": "PUT",
         "header": [],
         "body": {
           "mode": "raw",
-          "raw": "{\r\n  \"valor Total\": 15002,\r\n  \"dataCriacao\": \"2026-03-07T00:00:00.000Z\"\r\n}",
+          "raw": "{\r\n  \"valor Total\": 15004,\r\n  \"dataCriacao\": \"2026-03-07T00:00:00.000Z\"\r\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -141,6 +201,16 @@
     {
       "name": "Deletar pedido",
       "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiYWRtaW5faml0dGVyYml0IiwiaWF0IjoxNzcyOTc5NjE3LCJleHAiOjE3NzI5ODMyMTd9.TWS_leFxFP4nAaGYhTdyq2NbmllsNKhZHQGbp11ljOY",
+              "type": "string"
+            }
+          ]
+        },
         "method": "DELETE",
         "header": [],
         "url": {
@@ -157,6 +227,40 @@
         }
       },
       "response": []
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiYWRtaW5faml0dGVyYml0IiwiaWF0IjoxNzcyOTc5NjE3LCJleHAiOjE3NzI5ODMyMTd9.TWS_leFxFP4nAaGYhTdyq2NbmllsNKhZHQGbp11ljOY",
+        "type": "string"
+      }
+    ]
+  },
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
     }
   ]
 }

@@ -3,22 +3,26 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql" // Removido a linha 'url' daqui
+  provider = "postgresql"
 }
 
+// Tabela: Order [cite: 283]
 model Order {
-  id           Int      @id @default(autoincrement())
-  orderId      String   @unique [cite: 285]
-  value        Float    [cite: 286]
-  creationDate DateTime [cite: 287]
-  items        Item[]
+  orderId      String   @id // Coluna: orderId [cite: 285]
+  value        Float    // Coluna: value [cite: 286]
+  creationDate DateTime // Coluna: creationDate [cite: 287]
+  items        Items[]
 }
 
-model Item {
-  id        Int    @id @default(autoincrement())
-  productId Int    [cite: 291]
-  quantity  Int    [cite: 292]
-  price     Float  [cite: 293]
+// Tabela: Items 
+model Items {
+  orderId   String // Coluna: orderId [cite: 290]
+  productid Int    // Coluna: productid [cite: 291]
+  quantity  Int    // Coluna: quantity [cite: 292]
+  price     Float  // Coluna: price [cite: 293]
+
   order     Order  @relation(fields: [orderId], references: [orderId])
-  orderId   String [cite: 290]
+
+  // Define que a combinação destes dois campos é a chave primária
+  @@id([orderId, productid]) 
 }

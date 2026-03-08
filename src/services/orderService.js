@@ -43,7 +43,7 @@ class OrderService {
         include: { items: true },
       });
       if (!order) throw new Error("Pedido não encontrado.");
-      return order;
+      return this.formatResponse(order);
     } catch (error) {
       throw error;
     }

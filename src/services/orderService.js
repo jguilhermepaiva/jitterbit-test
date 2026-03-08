@@ -1,6 +1,10 @@
 const prisma = require("../config/prisma");
 
 class OrderService {
+  /**
+   * Realiza o Data Mapping obrigatório.
+   * Transforma as chaves do JSON em português para o padrão do banco (inglês).
+   */
   mapToDatabase(rawData) {
     return {
       orderId: rawData.numeroPedido,
@@ -16,6 +20,10 @@ class OrderService {
     };
   }
 
+  /**
+   * Formata a resposta da API para se alinhar ao protótipo do desafio.
+   * Remove o campo redundante 'orderId' de dentro do array de items.
+   */
   formatResponse(order) {
     if (!order) return null;
     return {
@@ -24,18 +32,25 @@ class OrderService {
     };
   }
 
+  /**
+   * Cria um novo pedido no banco de dados.
+   */
   async createOrder(rawData) {
     try {
       const data = this.mapToDatabase(rawData);
-      return await prisma.order.create({
+      const newOrder = await prisma.order.create({
         data,
         include: { items: true },
       });
+      return this.formatResponse(newOrder);
     } catch (error) {
       throw new Error(`Falha ao criar pedido: ${error.message}`);
     }
   }
 
+  /**
+   * Busca um pedido específico pelo seu ID.
+   */
   async getOrderById(orderId) {
     try {
       const order = await prisma.order.findUnique({
@@ -49,11 +64,17 @@ class OrderService {
     }
   }
 
+  /**
+   * Lista todos os pedidos cadastrados.
+   */
   async listAll() {
     const orders = await prisma.order.findMany({ include: { items: true } });
     return orders.map((order) => this.formatResponse(order));
   }
 
+  /**
+   * Atualiza o valor e a data de criação de um pedido existente.
+   */
   async updateOrder(orderId, rawData) {
     try {
       const data = {
@@ -73,6 +94,11 @@ class OrderService {
     }
   }
 
+  /**
+   * Deleta um pedido.
+   * Utiliza $transaction para garantir que os itens e o pedido 
+   * sejam deletados de forma segura e consistente.
+   */
   async deleteOrder(orderId) {
     try {
       return await prisma.$transaction([

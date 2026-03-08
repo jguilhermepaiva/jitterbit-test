@@ -1,19 +1,27 @@
-const orderService = require('../services/orderService');
+const orderService = require("../services/orderService");
 
 class OrderController {
+  /**
+   * POST /order
+   * Retorna 201 Created em caso de sucesso ou 400/500 em caso de falha.
+   */
   async create(req, res) {
     try {
       const orderData = req.body;
       if (!orderData || !orderData.numeroPedido) {
-        return res.status(400).json({ error: 'O campo "numeroPedido" é obrigatório.' }); // 
+        return res.status(400).json({ error: 'O campo "numeroPedido" é obrigatório.' }); //
       }
       const newOrder = await orderService.createOrder(orderData);
-      return res.status(201).json(newOrder); 
+      return res.status(201).json(newOrder);
     } catch (error) {
       return res.status(500).json({ error: error.message });
     }
   }
 
+  /**
+   * GET /order/:id
+   * Retorna 200 Ok em caso de sucesso ou 404 em caso de falha.
+   */
   async getById(req, res) {
     try {
       const { id } = req.params;
@@ -24,6 +32,10 @@ class OrderController {
     }
   }
 
+  /**
+   * GET /order/list
+   * Retorna 200 Ok em caso de sucesso ou 500 em caso de falha.
+   */
   async list(req, res) {
     try {
       const orders = await orderService.listAll();
@@ -33,6 +45,10 @@ class OrderController {
     }
   }
 
+  /**
+   * PUT /order/:id
+   * Retorna 200 Ok em caso de sucesso ou 400 em caso de falha.
+   */
   async update(req, res) {
     try {
       const { id } = req.params;
@@ -43,11 +59,15 @@ class OrderController {
     }
   }
 
+  /**
+   * DELETE /order/:id
+   * Retorna 200 Ok em caso de sucesso ou 400 em caso de falha.
+   */
   async delete(req, res) {
     try {
       const { id } = req.params;
       await orderService.deleteOrder(id);
-      return res.status(200).json({ message: 'Pedido deletado com sucesso.' }); // 
+      return res.status(200).json({ message: "Pedido deletado com sucesso." }); //
     } catch (error) {
       return res.status(400).json({ error: error.message });
     }

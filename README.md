@@ -1,23 +1,31 @@
-# Jitterbit Technical Test - Order Integration API 🚀
+# Jitterbit Technical Test - Order Integration API 
 
 Este projeto consiste em uma API robusta desenvolvida para o desafio técnico da **Jitterbit**, focada na integração e transformação de dados de pedidos. A aplicação recebe dados de um sistema externo em um formato específico e realiza o mapeamento (mapping) para uma estrutura de banco de dados relacional.
 
-## 🏗️ Arquitetura e Padrões
+## Arquitetura e Padrões
 
 A API segue o padrão **MSC (Model-Service-Controller)** para garantir a separação de responsabilidades e organização do código:
 
-* **Controllers**: Responsáveis pela comunicação HTTP, validação de entrada e retorno dos status codes adequados (201, 200, 404, 500).
+* **Controllers**: Responsáveis pela comunicação HTTP, validação de entrada e retorno dos status codes adequados (201, 200, 401, 404, 500).
 * **Services**: Onde reside a inteligência de **Data Mapping**, transformando as chaves em português para o padrão internacional do banco de dados.
+* **Middlewares**: Camada de interceptação para validação de segurança e autenticação.
 * **Prisma Schema**: Definição rigorosa das tabelas `Order` e `Items` conforme os requisitos técnicos solicitados.
 
-## 🛠️ Tecnologias Utilizadas
+## Segurança (JWT)
+
+Como recurso adicional, foi implementada a **Autenticação JWT (JSON Web Token)** para proteger os dados da aplicação:
+* **Rota de Autenticação**: Utilize o endpoint `POST /auth/login` para gerar um token de acesso.
+* **Proteção de Rotas**: Todos os endpoints de pedidos (`/order`) exigem o envio do token no cabeçalho da requisição através do padrão **Bearer Token**.
+
+## Tecnologias Utilizadas
 
 * **Node.js & Express**: Core da aplicação e roteamento.
-* **Prisma ORM (v7)**: Gerenciamento e modelagem do banco de dados com suporte a transações.
+* **Prisma ORM (v7)**: Gerenciamento e modelagem do banco de dados com suporte a **Transações Bancárias** para garantir integridade.
 * **PostgreSQL**: Banco de dados relacional para persistência dos dados.
 * **Docker & Docker Compose**: Containerização do ambiente de banco de dados para facilitar o setup.
+* **jsonwebtoken**: Biblioteca para geração e validação de tokens de segurança.
 
-## 🔄 Lógica de Transformação (Data Mapping)
+## Lógica de Transformação (Data Mapping)
 
 Um dos pilares do projeto é a transformação obrigatória dos dados recebidos. A API traduz o JSON de entrada para o formato final de persistência:
 
@@ -30,9 +38,15 @@ Um dos pilares do projeto é a transformação obrigatória dos dados recebidos.
 | `quantidadeltem` | `quantity` |
 | `valorltem` | `price` |
 
-> **Diferencial Técnico**: Implementada a função `formatResponse` para garantir que o retorno da API seja idêntico ao protótipo solicitado, removendo IDs redundantes e garantindo a limpeza dos dados.
+> **Diferencial Técnico**: Implementada a função `formatResponse` para garantir que o retorno da API seja idêntico ao protótipo solicitado no desafio, removendo IDs redundantes e garantindo a limpeza dos dados enviados ao cliente.
 
-## 🛠️ Como Rodar o Projeto
+## Documentação (Postman)
+
+Conforme os recursos adicionais solicitados, a API está documentada através de uma **Postman Collection**:
+* O arquivo `Jitterbit_API_Postman.json` está disponível na raiz do projeto.
+* Ao importar na ferramenta, você terá acesso a todos os endpoints pré-configurados, incluindo exemplos de body e configurações de autenticação.
+
+## Como Rodar o Projeto
 
 1.  **Clone o repositório e instale as dependências**:
     ```bash
@@ -43,7 +57,7 @@ Um dos pilares do projeto é a transformação obrigatória dos dados recebidos.
     docker-compose up -d
     ```
 3.  **Configure as variáveis de ambiente**:
-    Crie um arquivo `.env` na raiz com a sua `DATABASE_URL` (Ex: `postgresql://johndoe:randompassword@localhost:5432/jitterbit_db`).
+    Crie um arquivo `.env` na raiz com a sua `DATABASE_URL` (Ex: `postgresql://user:pass@localhost:5432/jitterbit_db`).
 4.  **Execute as migrações do Prisma**:
     ```bash
     npx prisma migrate dev
@@ -53,10 +67,11 @@ Um dos pilares do projeto é a transformação obrigatória dos dados recebidos.
     npm run dev
     ```
 
-## 📡 Endpoints da API
+## Endpoints da API
 
 | Método | Endpoint | Descrição |
 | :--- | :--- | :--- |
+| **POST** | `/auth/login` | Gera o token JWT necessário para as demais operações. |
 | **POST** | `/order` | Cria um novo pedido com **Data Mapping** obrigatório. |
 | **GET** | `/order/list` | Lista todos os pedidos cadastrados (Opcional). |
 | **GET** | `/order/:id` | Busca os detalhes de um pedido específico. |

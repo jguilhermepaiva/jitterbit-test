@@ -2,6 +2,9 @@ const express = require("express");
 const cors = require("cors");
 require("dotenv").config();
 
+// Importação das rotas
+const orderRoutes = require("./routes/orderRoutes");
+
 const app = express();
 
 //Middlewares
@@ -14,7 +17,7 @@ app.get("/health", (req, res) => {
 });
 
 
-// As rotas de pedidos entrarão aqui
-// app.use('/order', orderRoutes)...
+// As rotas de pedidos
+app.use("/order", orderRoutes);
 
 module.exports = app;

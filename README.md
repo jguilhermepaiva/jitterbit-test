@@ -14,7 +14,7 @@ A API segue o padrão **MSC (Model-Service-Controller)** para garantir a separa�
 ## Segurança (JWT)
 
 Como recurso adicional, foi implementada a **Autenticação JWT (JSON Web Token)** para proteger os dados da aplicação:
-* **Rota de Autenticação**: Utilize o endpoint `POST /auth/login` para gerar um token de acesso.
+* **Rota de Autenticação**: Utilize o endpoint `POST /auth/login` com as credenciais configuradas para gerar um token de acesso.
 * **Proteção de Rotas**: Todos os endpoints de pedidos (`/order`) exigem o envio do token no cabeçalho da requisição através do padrão **Bearer Token**.
 
 ## Tecnologias Utilizadas
@@ -40,11 +40,17 @@ Um dos pilares do projeto é a transformação obrigatória dos dados recebidos.
 
 > **Diferencial Técnico**: Implementada a função `formatResponse` para garantir que o retorno da API seja idêntico ao protótipo solicitado no desafio, removendo IDs redundantes e garantindo a limpeza dos dados enviados ao cliente.
 
-## Documentação (Postman)
+## 📖 Documentação
 
-Conforme os recursos adicionais solicitados, a API está documentada através de uma **Postman Collection**:
+Conforme sugerido nos recursos adicionais do desafio, a API oferece duas formas principais de consulta e teste:
+
+### 1. Documentação Interativa (Swagger)
+* Acesse `http://localhost:3000/api-docs` para visualizar e testar todos os endpoints diretamente pelo navegador.
+* Utilize o botão **Authorize** para inserir o seu token JWT e realizar testes reais em ambiente controlado.
+
+### 2. Postman Collection
 * O arquivo `Jitterbit_API_Postman.json` está disponível na raiz do projeto.
-* Ao importar na ferramenta, você terá acesso a todos os endpoints pré-configurados, incluindo exemplos de body e configurações de autenticação.
+* Ao importar a collection, você terá acesso a todos os endpoints pré-configurados, incluindo exemplos de body para criação e atualização de pedidos.
 
 ## Como Rodar o Projeto
 
@@ -56,8 +62,12 @@ Conforme os recursos adicionais solicitados, a API está documentada através de
     ```bash
     docker-compose up -d
     ```
-3.  **Configure as variáveis de ambiente**:
-    Crie um arquivo `.env` na raiz com a sua `DATABASE_URL` (Ex: `postgresql://user:pass@localhost:5432/jitterbit_db`).
+3. **Configure as variáveis de ambiente**:
+   * Crie um arquivo `.env` na raiz com a sua `DATABASE_URL` (Ex: `postgresql://user:pass@localhost:5432/jitterbit_db`).
+   
+   > **Nota para testes**: Para realizar o login e obter o token JWT via Swagger ou Postman, utilize as seguintes credenciais:
+   > * **E-mail**: `admin@admin.com`
+   > * **Senha**: `123456`
 4.  **Execute as migrações do Prisma**:
     ```bash
     npx prisma migrate dev
